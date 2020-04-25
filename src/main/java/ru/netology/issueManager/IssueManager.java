@@ -11,80 +11,64 @@ import java.util.function.Predicate;
 public class IssueManager {
     private IssueRepository repository;
     Issue issue = new Issue();
-    List<Issue> issues = new ArrayList<>();
 
     public IssueManager(IssueRepository repository) {
         this.repository = repository;
     }
 
-    public List<Issue> add(Issue issue, Comparator<Issue> comparator ) {
+    public List<Issue> add(Issue issue, Comparator<Issue> comparator) {
         repository.add(issue);
+        Arrays.sort(issue, comparator);
         return (List<Issue>) issue;
-        Arrays.sort(issue, comparator);
     }
 
-    private Object filterBy(Predicate<Issue> predicate) {
-        String search = "search";
+    private List<Issue> filterBy(Predicate<Issue> predicate) {
+        List<Issue> result = new ArrayList<>(0);
         for (Issue issues : repository.getAll()) {
-            if (matches(issues, search)) {
-          return issues;
+            if (predicate.test(issue)) {
+                List<Issue> tmp = new ArrayList<>(result.size() + 1);
+                System.arraycopy(result, 0, tmp, 0, result.size());
+                List<Issue> tmp (tmp.size() - 1) = issue;
+                result = tmp;
+                return result;
             }
         }
-        return predicate.test(issue);
+        return (List<Issue>) issue;
     }
 
-    private boolean matches(Issue issues, String search) {
-        return issue.equals(search);
-    }
-
-    public Object filterByAuthor(String author, Comparator<Issue> comparator){
-        return filterBy((Issue issue) -> issue.getAuthor().equals(author));
+    public List<Issue> filterByAuthor(String author, Comparator<Issue> comparator) {
+        filterBy((Issue issue) -> issue.getAuthor().equals(author));
         Arrays.sort(issue, comparator);
+        return (List<Issue>) issue;
     }
 
-    public Object filterByLabel(Set<Label> labels, Comparator<Issue> comparator){
-        return filterBy((Issue issue) -> issue.getLabels().equals(labels));
+    public List<Issue> filterByLabel(Set<Label> labels, Comparator<Issue> comparator) {
+        filterBy((Issue issue) -> issue.getLabels().equals(labels));
         Arrays.sort(issue, comparator);
+        return (List<Issue>) issue;
     }
 
-    public Object filterByMilestone(String milestone, Comparator<Issue> comparator){
-        return filterBy((Issue issue) -> issue.getMilestone().equals(milestone));
+    public List<Issue> filterByAssignee(String userAssignee, Comparator<Issue> comparator) {
+        filterBy((Issue issue) -> issue.getUserAssignee().equals(userAssignee));
         Arrays.sort(issue, comparator);
+        return (List<Issue>) issue;
     }
 
-    public Object filterByAssignee(String userAssignee, Comparator<Issue> comparator){
-        return filterBy((Issue issue) -> issue.getUserAssignee().equals(userAssignee));
-        Arrays.sort(issue, comparator);
-    }
-
-    public Object filterByHeading(String heading, Comparator<Issue> comparator){
-        return filterBy((Issue issue) -> issue.getHeading().equals(heading));
-        Arrays.sort(issue, comparator);
-    }
-
-    public Object filterByTime(String timeOfCreation, Comparator<Issue> comparator){
-        return filterBy((Issue issue) -> issue.getTimeOfCreation().equals(timeOfCreation));
-        Arrays.sort(issue, comparator);
-    }
-
-    public Object getIsOpened(boolean isOpened) {
-        List<Issue> issues = new ArrayList<>();
-        for (Issue issue : issues) {
+    public List<Issue> getIsOpened(boolean isOpened) {
+        for (Issue issue : repository.getAll()) {
             if (issue.isOpened()) {
-                return issue;
+                return (List<Issue>) issue;
             }
         }
-        return true;
+        return null;
     }
 
-    public Object getIsClosed(boolean isOpened, Comparator<Issue> comparator) {
-        List<Issue> issues = new ArrayList<>();
-        for (Issue issue : issues) {
+    public List<Issue> getIsClosed(boolean isOpened) {
+        for (Issue issue : repository.getAll()) {
             if (!issue.isOpened()) {
-                return issue;
+                return (List<Issue>) issue;
             }
         }
-        return true;
-        Arrays.sort(issue, comparator);
+        return null;
     }
 }

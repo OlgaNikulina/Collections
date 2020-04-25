@@ -39,7 +39,14 @@ public class IssueRepository {
         return this.issues.removeAll(items);
     }
 
-    public boolean openIssue(Issue issue ){
-        return issue.isOpened();
+    public List<Issue> openById(int id) {
+        getById(id).setOpened(true);
+        return issues;
+    }
+
+    public List<Issue> closeById(int id) {
+        getById(id).setOpened(false);
+        return issues;
     }
 }
+
