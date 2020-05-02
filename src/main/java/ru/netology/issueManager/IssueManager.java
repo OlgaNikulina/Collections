@@ -1,5 +1,6 @@
 package ru.netology.issueManager;
 
+import ru.netology.comparator.SortByAuthorAscComparator;
 import ru.netology.domain.Issue;
 import ru.netology.issueRepository.IssueRepository;
 
@@ -16,57 +17,63 @@ public class IssueManager {
         this.repository = repository;
     }
 
-    public List<Issue> add(Issue issue, Comparator<Issue> comparator) {
+    public void add(Issue issue) {
         repository.add(issue);
-        Arrays.sort(issue, comparator);
-        return (List<Issue>) issue;
     }
 
     private List<Issue> filterBy(Predicate<Issue> predicate) {
         List<Issue> result = new ArrayList<>(0);
-        for (Issue issues : repository.getAll()) {
+        for (Issue issue : repository.getAll()) {
             if (predicate.test(issue)) {
                 List<Issue> tmp = new ArrayList<>(result.size() + 1);
-                System.arraycopy(result, 0, tmp, 0, result.size());
-                List<Issue> tmp (tmp.size() - 1) = issue;
+                tmp.set(tmp.size() - 1, issue);
                 result = tmp;
                 return result;
             }
         }
-        return (List<Issue>) issue;
+        return null;
     }
 
     public List<Issue> filterByAuthor(String author, Comparator<Issue> comparator) {
-        filterBy((Issue issue) -> issue.getAuthor().equals(author));
-        Arrays.sort(issue, comparator);
-        return (List<Issue>) issue;
+        final List<Issue> issueList = filterBy((Issue issue) -> issue.getAuthor().equals(author));
+        issueList.sort(comparator);
+
+        return issueList;
     }
 
     public List<Issue> filterByLabel(Set<Label> labels, Comparator<Issue> comparator) {
-        filterBy((Issue issue) -> issue.getLabels().equals(labels));
-        Arrays.sort(issue, comparator);
-        return (List<Issue>) issue;
+        final List<Issue> issueList = filterBy((Issue issue) -> issue.getLabels().equals(labels));
+        issueList.sort(comparator);
+        return issueList;
     }
 
     public List<Issue> filterByAssignee(String userAssignee, Comparator<Issue> comparator) {
-        filterBy((Issue issue) -> issue.getUserAssignee().equals(userAssignee));
-        Arrays.sort(issue, comparator);
-        return (List<Issue>) issue;
+        final List<Issue> issueList = filterBy((Issue issue) -> issue.getUserAssignee().equals(userAssignee));
+        issueList.sort(comparator);
+        return issueList;
     }
 
-    public List<Issue> getIsOpened(boolean isOpened) {
+    public List<Issue> getIsOpened() {
+        List<Issue> result = new ArrayList<>(0);
         for (Issue issue : repository.getAll()) {
             if (issue.isOpened()) {
-                return (List<Issue>) issue;
+                List<Issue> tmp = new ArrayList<>(result.size() + 1);
+                tmp.set(tmp.size() - 1, issue);
+                result = tmp;
+                return result;
             }
         }
         return null;
     }
 
     public List<Issue> getIsClosed(boolean isOpened) {
+        List<Issue> result = new ArrayList<>(0);
         for (Issue issue : repository.getAll()) {
             if (!issue.isOpened()) {
-                return (List<Issue>) issue;
+                List<Issue> tmp = new ArrayList<>(result.size() + 1);
+                tmp.set(tmp.size() - 1, issue);
+                result = tmp;
+                return result;
             }
         }
         return null;

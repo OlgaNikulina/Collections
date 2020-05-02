@@ -39,14 +39,17 @@ public class IssueRepository {
         return this.issues.removeAll(items);
     }
 
-    public List<Issue> openById(int id) {
+    public void openById(int id) {
         getById(id).setOpened(true);
-        return issues;
+        if (getById(id) == null) {
+            throw new RuntimeException("Element with id: " + id + " not found");
+        }
     }
 
-    public List<Issue> closeById(int id) {
+    public void closeById(int id) {
         getById(id).setOpened(false);
-        return issues;
+        if (getById(id) == null) {
+            throw new RuntimeException("Element with id: " + id + " not found");
+        }
     }
 }
-
