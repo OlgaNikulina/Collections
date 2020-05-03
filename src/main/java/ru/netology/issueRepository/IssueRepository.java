@@ -39,17 +39,21 @@ public class IssueRepository {
         return this.issues.removeAll(items);
     }
 
-    public void openById(int id) {
-        getById(id).setOpened(true);
-        if (getById(id) == null) {
+    public boolean openById(int id) {
+        final Issue issue = getById(id);
+        if (issue == null) {
             throw new RuntimeException("Element with id: " + id + " not found");
         }
+        issue.setOpened(true);
+        return true;
     }
 
-    public void closeById(int id) {
-        getById(id).setOpened(false);
+    public boolean closeById(int id) {
+        final Issue issue = getById(id);
         if (getById(id) == null) {
             throw new RuntimeException("Element with id: " + id + " not found");
         }
+        issue.setOpened(false);
+        return true;
     }
 }

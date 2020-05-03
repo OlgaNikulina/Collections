@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Nested;
 import ru.netology.domain.Issue;
 
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -17,12 +16,14 @@ class CRUDRepositoryTest {
     private Issue first = new Issue(1, "", Set.of(), "", true, "", "", new Date());
     private Issue second = new Issue(2, "", Set.of(), "", true, "", "", new Date());
     private Issue third = new Issue(3, "", Set.of(), "", false, "", "", new Date());
+    private Issue fourth = new Issue(4, "", Set.of(), "", false, "", "", new Date());
 
     @BeforeEach
-    public void setRepository(){
+    public void setRepository() {
         repository.add(first);
         repository.add(second);
         repository.add(third);
+        repository.add(fourth);
     }
 
 
@@ -63,38 +64,29 @@ class CRUDRepositoryTest {
 
     @Test
     void shouldOpenIfExist() {
-        Issue issue = new Issue();
         int id = 2;
-        repository.openById(id);
         repository.getById(id);
-        assertTrue(true);
+        assertTrue(repository.openById(id));
     }
 
     @Test
     void shouldNotOpenIfNotExist() {
-        Issue issue = new Issue();
-        int id = 4;
-        repository.openById(id);
+        int id = 5;
         repository.getById(id);
-        assertThrows(RuntimeException.class, () -> repository.getById(id));
+        assertThrows(RuntimeException.class, () -> repository.openById(id));
     }
 
     @Test
     void shouldCloseIfExist() {
-        Issue issue = new Issue();
-        int id = 2;
-        repository.closeById(id);
+        int id = 3;
         repository.getById(id);
-        assertTrue(true);
+        assertTrue(repository.closeById(id));
     }
 
     @Test
     void shouldNotCloseIfNotExist() {
-        Issue issue = new Issue();
-        int id = 4;
-        repository.closeById(id);
+        int id = 5;
         repository.getById(id);
-        assertThrows(RuntimeException.class, () -> repository.getById(id));
-
+        assertThrows(RuntimeException.class, () -> repository.closeById(id));
     }
 }

@@ -11,7 +11,6 @@ import java.util.function.Predicate;
 
 public class IssueManager {
     private IssueRepository repository;
-    Issue issue = new Issue();
 
     public IssueManager(IssueRepository repository) {
         this.repository = repository;
@@ -25,19 +24,15 @@ public class IssueManager {
         List<Issue> result = new ArrayList<>(0);
         for (Issue issue : repository.getAll()) {
             if (predicate.test(issue)) {
-                List<Issue> tmp = new ArrayList<>(result.size() + 1);
-                tmp.set(tmp.size() - 1, issue);
-                result = tmp;
-                return result;
+                result.add(issue);
             }
         }
-        return null;
+        return result;
     }
 
     public List<Issue> filterByAuthor(String author, Comparator<Issue> comparator) {
         final List<Issue> issueList = filterBy((Issue issue) -> issue.getAuthor().equals(author));
         issueList.sort(comparator);
-
         return issueList;
     }
 
@@ -57,25 +52,19 @@ public class IssueManager {
         List<Issue> result = new ArrayList<>(0);
         for (Issue issue : repository.getAll()) {
             if (issue.isOpened()) {
-                List<Issue> tmp = new ArrayList<>(result.size() + 1);
-                tmp.set(tmp.size() - 1, issue);
-                result = tmp;
-                return result;
+                result.add(issue);
             }
         }
-        return null;
+        return result;
     }
 
-    public List<Issue> getIsClosed(boolean isOpened) {
+    public List<Issue> getIsClosed() {
         List<Issue> result = new ArrayList<>(0);
         for (Issue issue : repository.getAll()) {
             if (!issue.isOpened()) {
-                List<Issue> tmp = new ArrayList<>(result.size() + 1);
-                tmp.set(tmp.size() - 1, issue);
-                result = tmp;
-                return result;
+                result.add(issue);
             }
         }
-        return null;
+        return result;
     }
 }
