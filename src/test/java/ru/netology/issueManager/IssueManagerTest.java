@@ -41,9 +41,9 @@ class IssueManagerTest {
     @Test
     void filterByLabel() {
         List.of(first, second, third);
-        //final List<Issue> actual = manager.filterByLabel(Set.of(), Comparator.comparing(Issue::getLabels);
+        final List<Issue> actual = manager.filterByLabel(Set.of(), Comparator.comparing(Issue::getLabels);
         final List<Issue> expected = List.of();
-        //assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
