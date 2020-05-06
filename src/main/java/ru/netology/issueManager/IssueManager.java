@@ -37,7 +37,7 @@ public class IssueManager {
     }
 
     public List<Issue> filterByLabel(Set<Label> labels, Comparator<Issue> comparator) {
-        final List<Issue> issueList = filterBy((Issue issue) -> issue.getLabels().equals(labels));
+        final List<Issue> issueList = filterBy((Issue issue) -> issue.getLabels().containsAll(labels));
         issueList.sort(comparator);
         return issueList;
     }
