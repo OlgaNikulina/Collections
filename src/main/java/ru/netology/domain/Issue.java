@@ -14,12 +14,10 @@ import java.util.Set;
 public class Issue {
     private int id;
     private String author;
-    private Set<String>  labels;
+    private Set<String> labels;
     private String milestone;
     private boolean isOpened;
     private String userAssignee;
     private String heading;
     private Date timeOfCreation;
-
 }
-
