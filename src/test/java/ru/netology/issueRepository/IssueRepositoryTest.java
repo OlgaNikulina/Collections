@@ -1,13 +1,12 @@
 package ru.netology.issueRepository;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.domain.Issue;
 
-import java.util.*;
+import java.util.Date;
 import java.util.List;
-import java.util.function.BooleanSupplier;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,35 +27,29 @@ class IssueRepositoryTest {
 
     @Test
     void shouldAddIssue() {
-        List.of(first, second, third, fourth);
         Issue fifth = new Issue(5, "", Set.of(), "", false, "", "", new Date());
-        final boolean actual = repository.add(fifth);
-        final List<Issue> expected = List.of(first, second, third, fourth, fifth);
-        assertEquals(expected, actual);
+        repository.add(fifth);
+        assertEquals(List.of(first, second, third, fourth, fifth), repository.getAll());
     }
 
     @Test
     void shouldAddTwoIssues() {
-        List.of(first, second);
-        final boolean actual = repository.addAll(List.of(first, second));
-        final List<Issue> expected = List.of(first, second);
-        assertEquals(expected, actual);
+        Issue fifth = new Issue();
+        Issue sixth = new Issue();
+        repository.addAll(List.of(fifth, sixth));
+        assertEquals(List.of(first, second, third, fourth, fifth, sixth), repository.getAll());
     }
 
     @Test
     void shouldRemove() {
-        List.of(first, second, third, fourth);
-        final boolean actual = repository.remove(second);
-        final List<Issue> expected = List.of(first, third, fourth);
-        assertEquals(expected, actual);
+        repository.remove(second);
+        assertNull(repository.getById(2));
     }
 
     @Test
     void shouldRemoveAll() {
-        List.of(first, second, third, fourth);
-        final boolean actual = repository.removeAll(List.of(first));
-        final List<Issue> expected = List.of();
-        assertEquals(expected, actual);
+        repository.removeAll(List.of(first, second, third, fourth));
+        assertEquals(List.of(), repository.getAll());
     }
 
     @Test
@@ -64,8 +57,8 @@ class IssueRepositoryTest {
         int id = 2;
         repository.add(second);
         repository.openById(id);
-        Issue actual = new Issue(2, "", Set.of(), "", true, "", "", new Date());
-        assertEquals(repository.getById(2), actual);
+        boolean expected = repository.getById(2).isOpened();
+        assertTrue(expected);
     }
 
     @Test
@@ -80,8 +73,9 @@ class IssueRepositoryTest {
         int id = 3;
         repository.add(third);
         repository.closeById(id);
-        Issue actual = new Issue(3, "", Set.of(), "", false, "", "", new Date());
-        assertEquals(repository.getById(3), actual);
+        repository.getById(3);
+        boolean expected = repository.getById(3).isOpened();
+        assertFalse(expected);
     }
 
     @Test

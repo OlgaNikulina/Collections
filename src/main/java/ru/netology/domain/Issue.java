@@ -20,4 +20,6 @@ public class Issue {
     private String userAssignee;
     private String heading;
     private Date timeOfCreation;
+
 }
+

@@ -36,10 +36,8 @@ public class IssueManager {
         return issueList;
     }
 
-    public List<Issue> filterByLabel(Set<Label> labels, Comparator<Issue> comparator) {
-        final List<Issue> issueList = filterBy((Issue issue) -> issue.getLabels().containsAll(labels));
-        issueList.sort(comparator);
-        return issueList;
+    public List<Issue> filterByLabel(Set<Label> labels) {
+        return filterBy((Issue issue) -> issue.getLabels().containsAll(labels));
     }
 
     public List<Issue> filterByAssignee(String userAssignee, Comparator<Issue> comparator) {
