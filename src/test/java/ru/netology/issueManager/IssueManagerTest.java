@@ -1,14 +1,10 @@
 package ru.netology.issueManager;
 
-import jdk.jfr.Label;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.AssertionsKt;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.domain.Issue;
 import ru.netology.issueRepository.IssueRepository;
 
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -32,7 +28,6 @@ class IssueManagerTest {
 
     @Test
     void filterByAuthor() {
-        List.of(first, second, third, fourth);
         final List<Issue> actual = manager.filterByAuthor("Juliette de Rancourt", Comparator.comparing(Issue::getAuthor));
         final List<Issue> expected = List.of(second, third);
         assertEquals(expected, actual);
@@ -40,15 +35,13 @@ class IssueManagerTest {
 
     @Test
     void filterByLabel() {
-        List.of(first, second, third);
         final List<Issue> actual = manager.filterByLabel(Set.of());
-        final List<Issue> expected = List.of();
+        final List<Issue> expected = List.of(first, second, third, fourth);
         assertEquals(expected, actual);
     }
 
     @Test
     void filterByAssignee() {
-        List.of(first, second, third, fourth);
         final List<Issue> actual = manager.filterByAssignee("Stefan Bechtold", Comparator.comparing(Issue::getUserAssignee));
         final List<Issue> expected = List.of(first, second);
         assertEquals(expected, actual);
@@ -56,7 +49,6 @@ class IssueManagerTest {
 
     @Test
     void getIsOpened() {
-        List.of(first, second, third, fourth);
         final List<Issue> actual = manager.getIsOpened();
         final List<Issue> expected = List.of(first, second);
         assertEquals(expected, actual);
@@ -64,7 +56,6 @@ class IssueManagerTest {
 
     @Test
     void getIsClosed() {
-        List.of(first, second, third, fourth);
         final List<Issue> actual = manager.getIsClosed();
         final List<Issue> expected = List.of(third, fourth);
         assertEquals(expected, actual);
