@@ -1,12 +1,13 @@
 package ru.netology.issueManager;
 
-import ru.netology.comparator.SortByAuthorAscComparator;
 import ru.netology.domain.Issue;
 import ru.netology.issueRepository.IssueRepository;
 
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 
 public class IssueManager {
