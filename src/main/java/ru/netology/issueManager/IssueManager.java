@@ -37,7 +37,7 @@ public class IssueManager {
         return issueList;
     }
 
-    public List<Issue> filterByLabel(Set<Label> labels) {
+    public List<Issue> filterByLabel(Set<String> labels) {
         return filterBy((Issue issue) -> issue.getLabels().containsAll(labels));
     }
 

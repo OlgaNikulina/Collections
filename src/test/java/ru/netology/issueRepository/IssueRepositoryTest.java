@@ -73,7 +73,6 @@ class IssueRepositoryTest {
         int id = 3;
         repository.add(third);
         repository.closeById(id);
-        repository.getById(3);
         boolean expected = repository.getById(3).isOpened();
         assertFalse(expected);
     }

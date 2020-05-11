@@ -14,7 +14,7 @@ import java.util.Set;
 public class Issue {
     private int id;
     private String author;
-    private Set<Label> labels;
+    private Set<String>  labels;
     private String milestone;
     private boolean isOpened;
     private String userAssignee;
